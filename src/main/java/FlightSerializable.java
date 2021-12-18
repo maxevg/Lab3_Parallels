@@ -1,4 +1,5 @@
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import scala.Tuple2;
@@ -20,6 +21,7 @@ public class FlightSerializable implements Serializable {
                     int DestAirportID = Integer.parseInt((Table[0]).replaceAll("\"", ""));
                     return new Tuple2<>(DestAirportID, Table[1]);
                 });
+        JavaPairRDD<Integer, Integer>, 
 
     }
 }
