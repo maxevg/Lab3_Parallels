@@ -9,7 +9,10 @@ public class FlightSerCount implements Serializable {
     public FlightSerCount() {}
     
     public FlightSerCount(float MaxArrDelay, int CountOfFlights, int CountOfDelays, int CountOfCancelled){
-        
+        this.MaxArrDelay = MaxArrDelay;
+        this.CountOfFlights = CountOfFlights;
+        this.CountOfDelays = CountOfDelays;
+        this.CountOfCancelled = CountOfCancelled;
     }
 
     public float getMaxArrDelay() {
