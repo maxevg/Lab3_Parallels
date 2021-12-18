@@ -8,6 +8,12 @@ public class FlightSerializable implements Serializable {
     private float CANCELLED;
 
     public FlightSerializable() {}
-    
+
+    public FlightWritable(int DEST_AIRPORT_ID, float ARR_DELAY, float AIR_TIME, float CANCELLED) {
+        this.DEST_AIRPORT_ID = DEST_AIRPORT_ID;
+        this.ARR_DELAY = ARR_DELAY;
+        this.AIR_TIME = AIR_TIME;
+        this.CANCELLED = CANCELLED;
+    }
 
 }
