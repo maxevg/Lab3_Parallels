@@ -22,5 +22,5 @@ public class FlightSerCount implements Serializable {
         return CountOfCancelled;
     }
 
-
+    public static FlightSerCount addValue(FlightSerCount a, float)
 }
