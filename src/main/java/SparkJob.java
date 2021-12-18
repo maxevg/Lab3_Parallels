@@ -5,6 +5,14 @@ import org.apache.spark.api.java.JavaSparkContext;
 import scala.Tuple2;
 
 public class SparkJob {
+    private static float CheckNullDelay(String current) {
+        if (current.equals("")) {
+            return 0.0F;
+        } else {
+            return Float.parseFloat(current);
+        }
+    }
+
     public static void main(String[] args) {
         SparkConf conf = new SparkConf().setAppName("lab3");
         JavaSparkContext sc = new JavaSparkContext(conf);
@@ -19,14 +27,19 @@ public class SparkJob {
                     int DestAirportID = Integer.parseInt((Table[0]).replaceAll("\"", ""));
                     return new Tuple2<>(DestAirportID, Table[1]);
                 });
+
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> DataOfAirportDelays = DistOfAirportDelays.filter(str -> !str.contains("YEAR"))
                 .mapToPair(value -> {
                     String[] Table = value.split(",");
                     int DestAirportID = Integer.parseInt(Table[14]);
                     int OriginalAirportID = Integer.parseInt(Table[11]);
                     float IsCancelled = Float.parseFloat(Table[19]);
-                    float ArrDelay = CheckNull(Table[17]);
+                    float ArrDelay = CheckNullDelay(Table[17]);
+                    return new Tuple2<>(new Tuple2<>(OriginalAirportID, DestAirportID),
+                            new FlightSerializable(DestAirportID, OriginalAirportID, ArrDelay, IsCancelled));
                 });
+
+        JavaPairRDD<Tuple2<Integer, Integer>,
 
     }
 }
