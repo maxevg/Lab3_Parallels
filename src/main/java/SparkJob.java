@@ -19,7 +19,11 @@ public class SparkJob {
                     int DestAirportID = Integer.parseInt((Table[0]).replaceAll("\"", ""));
                     return new Tuple2<>(DestAirportID, Table[1]);
                 });
-        JavaPairRDD<Integer, Integer>,
+        JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> DataOfAirportDelays = DistOfAirportDelays.filter(str -> !str.contains("YEAR"))
+                .mapToPair(value -> {
+                    String[] Table = value.split(",");
+                    int DestAirportID = Integer.parseInt((Table[0]).replaceAll("\"", ""));
+                })
 
     }
 }
