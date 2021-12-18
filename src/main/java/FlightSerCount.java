@@ -5,4 +5,20 @@ public class FlightSerCount implements Serializable {
     private int CountOfFlights;
     private int CountOfDelays;
     private int CountOfCancelled;
+
+    public float getMaxArrDelay() {
+        return MaxArrDelay;
+    }
+
+    public float getCountOfFlights() {
+        return CountOfFlights;
+    }
+
+    public float getCountOfDelays() {
+        return CountOfDelays;
+    }
+
+    public float getCountOfCancelled() {
+        return CountOfCancelled;
+    }
 }
