@@ -13,8 +13,10 @@ public class FlightSerializable implements Serializable {
         JavaRDD<String> DistOfAirportNames  = sc.textFile("L_AIRPORT_ID.csv");
 
 
-        JavaRDD<ParsedData> spli)tted = di)stFi)le.map(
-                s -> new ParsedData(s, ai)rportsBroadcasted.value())
+        JavaPairRDD<Integer, String> DataOfAirportNames = DistOfAirportNames.filter(str ->!str.contains("Code"))
+                .mapToPair(value -> {
+                    String[] Table = value.split()
+                })
 
     }
 }
