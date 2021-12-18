@@ -42,8 +42,10 @@ public class SparkJob {
 
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerCount> FlightSerCounts = DataOfAirportDelays
                 .combineByKey(p -> new FlightSerCount(1,
-                        p.getARR_DELAY() > 0.0F & 1 : 0,
-                        p.getARR_DELAY))
+                        p.getARR_DELAY() > 0.0F ? 1 : 0,
+                        p.getARR_DELAY(),
+                        p.getCancelled() == 0.0F ? 0 : 1),
+                        (flightSerCount, p) -> FlightSerCount.)
 
     }
 }
