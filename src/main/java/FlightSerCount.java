@@ -21,4 +21,6 @@ public class FlightSerCount implements Serializable {
     public float getCountOfCancelled() {
         return CountOfCancelled;
     }
+
+
 }

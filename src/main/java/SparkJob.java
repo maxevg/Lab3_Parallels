@@ -28,18 +28,22 @@ public class SparkJob {
                     return new Tuple2<>(DestAirportID, Table[1]);
                 });
 
-        JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> DataOfAirportDelays = DistOfAirportDelays.filter(str -> !str.contains("YEAR"))
-                .mapToPair(value -> {
-                    String[] Table = value.split(",");
-                    int DestAirportID = Integer.parseInt(Table[14]);
-                    int OriginalAirportID = Integer.parseInt(Table[11]);
-                    float IsCancelled = Float.parseFloat(Table[19]);
-                    float ArrDelay = CheckNullDelay(Table[17]);
-                    return new Tuple2<>(new Tuple2<>(OriginalAirportID, DestAirportID),
+        JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> DataOfAirportDelays = DistOfAirportDelays
+                .filter(str -> !str.contains("YEAR"))
+                    .mapToPair(value -> {
+                        String[] Table = value.split(",");
+                        int DestAirportID = Integer.parseInt(Table[14]);
+                        int OriginalAirportID = Integer.parseInt(Table[11]);
+                        float IsCancelled = Float.parseFloat(Table[19]);
+                        float ArrDelay = CheckNullDelay(Table[17]);
+                        return new Tuple2<>(new Tuple2<>(OriginalAirportID, DestAirportID),
                             new FlightSerializable(DestAirportID, OriginalAirportID, ArrDelay, IsCancelled));
-                });
+                    });
 
-        JavaPairRDD<Tuple2<Integer, Integer>,
+        JavaPairRDD<Tuple2<Integer, Integer>, FlightSerCount> FlightSerCounts = DataOfAirportDelays
+                .combineByKey(p -> new FlightSerCount(1,
+                        p.getARR_DELAY() > 0.0F & 1 : 0,
+                        p.getARR_DELAY))
 
     }
 }
