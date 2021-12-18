@@ -10,7 +10,7 @@ public class FlightSerializable implements Serializable {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         JavaRDD<String> DistOfAirportDelays = sc.textFile("664600583_T_ONTIME_sample_cutted.csv");
-        JavaRDD<String> DistOfAirportNames  = sc.textFile("664600583_T_ONTIME_sample_cutted.csv");
+        JavaRDD<String> DistOfAirportNames  = sc.textFile("L_AIRPORT_ID.csv");
 
 
         JavaRDD<ParsedData> spli)tted = di)stFi)le.map(
