@@ -6,6 +6,8 @@ public class FlightSerCount implements Serializable {
     private int CountOfDelays;
     private int CountOfCancelled;
 
+    public FlightSerCount() {}
+
     public float getMaxArrDelay() {
         return MaxArrDelay;
     }
@@ -22,5 +24,12 @@ public class FlightSerCount implements Serializable {
         return CountOfCancelled;
     }
 
-    public static FlightSerCount addValue(FlightSerCount a, float)
+    public static FlightSerCount addValue(FlightSerCount a, float MaxArrDelay, boolean isDelayed, boolean isCancelled) {
+        return new FlightSerCount(a.getCountOfFlights() + 1,
+            isDelayed ? a.getCountOfDelays() + 1 : a.getCountOfDelays(),
+            Math.max(a.getMaxArrDelay(), MaxArrDelay),
+            isCancelled ? a.getCountOfCancelled() + 1 : a.getCountOfCancelled());
+    }
+
+
 }
