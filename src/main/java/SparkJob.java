@@ -2,7 +2,10 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.broadcast.Broadcast;
 import scala.Tuple2;
+
+import java.util.Map;
 
 public class SparkJob {
     private static float CheckNullDelay(String current) {
@@ -43,9 +46,19 @@ public class SparkJob {
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerCount> FlightSerCounts = DataOfAirportDelays
                 .combineByKey(p -> new FlightSerCount(1,
                         p.getARR_DELAY() > 0.0F ? 1 : 0,
-                        p.getARR_DELAY(),
-                        p.getCancelled() == 0.0F ? 0 : 1),
-                        (flightSerCount, p) -> FlightSerCount.)
+                                (int) p.getARR_DELAY(),
+                        p.getCANCELLED() == 0.0F ? 0 : 1),
+                        (flightSerCount, p) -> FlightSerCount.addValue(flightSerCount, p.getARR_DELAY(),
+                                p.getARR_DELAY() != 0.0F,
+                                p.getCANCELLED() != 0.0F),
+                        FlightSerCount::add);
+        JavaPairRDD<Tuple2<Integer, Integer>, String> FlightSerCountStrings = FlightSerCounts
+                .mapToPair(value -> {
+                    value._2();
+                    return new Tuple2<>(value._1(), FlightSerCount.toOutString(value._2()));
+                });
+
+        final Broadcast<Map<Integer, String>> broadcast = sc.broadcast(DataOfAirportNames.collectAsMap());
 
     }
 }
